@@ -79,6 +79,14 @@ class Complexity {
         }
     }
 
+    
+    // Break:
+
+    // [V]: for(int x=1; x < n; x*=3)
+    // [V]: for(int x=n; x > 1; i/=3)
+    // [V]: for(int x=2; x < n; x = Math.pow(x,3))
+    // [V]: for(int x=n; x > 2; x = Math.pow(x,1/3))
+
     void Stage13(int n) {
         int x = 1;
         while (x < n) {
