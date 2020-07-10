@@ -3,7 +3,8 @@
 -----
 ##### נכתב ע״י צבי מינץ - zvimints@gmail.com 
 ##### מוקלטות: https://www.youtube.com/playlist?list=PLskc-ZNWyaRoPa2QLYmrF2ffYmVLPdOS2
-##### על מנת להשאר מעודכנים בקלות, ניתן ללחוץ על הכפתור <img src ="https://pbs.twimg.com/media/DRz1EnSXUAAGR9M.jpg" width="17%" height="15%"/> 
+##### :על מנת להשאר מעודכנים בקלות, ניתן ללחוץ על הכפתור 
+<img src ="https://pbs.twimg.com/media/DRz1EnSXUAAGR9M.jpg" width="17%" height="15%"/> <br />
 ##### הקורס התקיים בסמסטר קיץ שנת 2020
 -----
 # מערכי תרגול
