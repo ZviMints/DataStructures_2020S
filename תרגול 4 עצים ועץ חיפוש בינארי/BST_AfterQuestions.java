@@ -215,11 +215,16 @@ public class BST_AfterQuestions
 		}
 	}
 	// ******************* From Moodle ********************************** //
-	// Ex10
+	
+	// =================================== Ex 9.2 ===================================
+	
 	public void printInorder(){ InOrder(); }
+	
+	// =================================== Ex 9.3 ===================================
+
 	public void printPostorder (){ PostOrder(); }
 
-	/* Computes the number of nodes in a tree. */
+	// ============================= Ex 9.4 +  Ex 10.6 ===================================
 	public int size(){ 
 		return size(root);
 	}
@@ -230,10 +235,8 @@ public class BST_AfterQuestions
 			return size(current.left) + size(current.right) + 1;
 	}
 
-	// Ex11
 
-	// Function to calculate number 
-	// of children of given node 
+	// =================================== Ex 10.7 ===================================
 	public int numOfChilds(int data){
 		Node current = root;
 		boolean exists = this.search(data);
@@ -252,17 +255,18 @@ public class BST_AfterQuestions
 			return 1 + numOfChilds(current.right) + numOfChilds(current.left);
 	}
 
-	// Helper
+	// =================================== Ex 10.8 ===================================
 	public String toString(){ 
 		return "<" + toString(root) + ">";
 	}
 
-	// recursively printing out the nodes
+
 	private String toString(Node n) {
 		if(n == null) return "";
 		else return n.data + "," + toString(n.right) + toString(n.left);
 	}
 
+	// =================================== Ex 10.9 ===================================
 	public int numOfLeaves(){ 
 		return numOfLeaves(root);
 	}
@@ -272,16 +276,19 @@ public class BST_AfterQuestions
 		else return numOfLeaves(curr.left) + numOfLeaves(curr.right);
 	}
 
+	// =================================== Ex 10.10 ===================================
 	public int numOfParents (){ 
 		return numOfParents(root);
 
 	}
+
 	private int numOfParents(Node curr) {
 		if(curr == null) return 0;
 		if(curr.left == null && curr.right == null) return 0;
 		else return 1 + numOfParents(curr.left) + numOfParents(curr.right);
 	}
 
+	// =================================== Ex 10.11 ===================================
 	public BST_AfterQuestions(BST_AfterQuestions other){
 		if(other == null) return;
 		if(root == null && other != null) {

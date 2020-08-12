@@ -209,13 +209,13 @@ public class BST_StartPoint
 		}
 	}
 	// ******************* From Moodle ********************************** //
-	// Ex10
+	// Ex9
 	 public void printInorder(){}
 	 public void printPostorder (){}
 	 public int size(){ return Integer.MIN_VALUE; }
 	 public Node find(Object data){ return null; }
 
-	 // Ex11
+	 // Ex10
 	 public int numOfChilds(Object data){ return Integer.MIN_VALUE; }
 	 public String toString(){ return ""; }
 	 public int numOfLeaves(){ return Integer.MIN_VALUE;  }
