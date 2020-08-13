@@ -1,47 +1,27 @@
-// ******************* Zvi Mints - zvimints@gmail.com ********************************** //
+import java.util.NoSuchElementException;
 
-interface AbstractBST {
-    public int min();
-
-    public int max();
-
-    public boolean contains(int key);
-
-    public int height();
-
-    public void preOrder();
-
-    public void inOrder();
-
-    public void postOrder();
-
-    public void add(int value);
-
-    public void delete(int key);
-
-    public int size();
-}
-
-
-class BST implements AbstractBST {
+public class BST implements AbstractAST {
     Node root;
-
-    @Override
-    public int min() { return min(root); }
-    private int min(Node current) {
-        return current.left == null ? current.data : min(root.left);
-    }
 
     @Override
     public int max() {
         Node current = root;
-        while (current != null) current = current.right;
+        while (current.right != null) current = current.right;
         return current.data;
     }
 
     @Override
+    public int min() {
+        return min(root);
+    }
+
+    private int min(Node current) {
+        return (current.left == null) ? current.data : min(current.left);
+    }
+
+
     public boolean contains(int key) {
-        return contains(key, root) == null;
+        return contains(key, root) != null;
     }
 
     private Node contains(int key, Node current) {
@@ -55,14 +35,14 @@ class BST implements AbstractBST {
         return height(root);
     }
 
-    private int height(Node current) {
+    public int height(Node current) {
         if (current == null) return -1;
-        else return Integer.max(height(current.left), height(current.right)) + 1;
+        return Integer.max(height(current.left), height(current.right)) + 1;
     }
 
     @Override
     public void preOrder() {
-        preOrder(root);
+        preOrder(this.root);
     }
 
     private void preOrder(Node current) {
@@ -75,83 +55,75 @@ class BST implements AbstractBST {
 
     @Override
     public void inOrder() {
-        inOrder(root);
+        inOrder(this.root);
     }
 
     private void inOrder(Node current) {
         if (current != null) {
-            preOrder(current.left);
+            inOrder(current.left);
             System.out.print(current.data + " ");
-            preOrder(current.right);
+            inOrder(current.right);
         }
     }
 
     @Override
     public void postOrder() {
-        postOrder(root);
+        postOrder(this.root);
     }
 
     private void postOrder(Node current) {
         if (current != null) {
-            preOrder(current.left);
-            preOrder(current.right);
+            postOrder(current.left);
+            postOrder(current.right);
             System.out.print(current.data + " ");
         }
     }
+
 
     @Override
     public void add(int value) {
         root = add(value, root);
     }
 
-    public Node add(int value, Node current) {
-        if (current == null) return new Node(value);
+    private Node add(int value, Node current) {
+        if (current == null) current = new Node(value);
         else {
             if (value < current.data) current.left = add(value, current.left);
             else if (value > current.data) current.right = add(value, current.right);
-            else throw new RuntimeException("Already Exists");
+            else throw new RuntimeException("Already exists");
         }
-        return current;
+        return current; // return new tree after insertion
     }
 
     @Override
     public void delete(int key) {
-        root = delete(key, root);
+      root = delete(key,root);
     }
     private Node delete(int key, Node current) {
+        if (current == null)  return null;
 
-        Node element = contains(key, current);
-        // Not in tree
-        if(current == null) return null;
+        if (key < current.data)  current.left = delete(key, current.left);
+        else if (key > current.data) current.right = delete(key, current.right);
 
-        // Leaf
-        if (current.left == null && current.right == null) {
-            return null;
+        else
+        {
+            if (current.left == null)  return current.right;
+            else if (current.right == null) return current.left;
+
+            current.data = min(current.right);
+            current.right = delete(current.data, current.right);
         }
 
-        // One Children
-        if (current.right == null) {
-            return current.left;
-        }
-
-        if (current.left == null) {
-            return current.right;
-        }
-
-        // Two Children
-        int smallestValue = min(current.right);
-        current.data = smallestValue;
-        current.right = delete(smallestValue, current.right);
         return current;
     }
+
 
     @Override
     public int size() {
         return size(root);
     }
-
-    public int size(Node current) {
-        if (current == null) return 0;
+    private int size(Node current) {
+        if(current == null) return 0;
         else return size(current.left) + size(current.right) + 1;
     }
 }
