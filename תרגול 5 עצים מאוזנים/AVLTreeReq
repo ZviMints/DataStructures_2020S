@@ -1,0 +1,178 @@
+import java.util.NoSuchElementException;
+
+public class AVL implements AbstractBalancedBST {
+
+    private Node root;
+
+    @Override
+    public int min() {
+        if (root == null) throw new NoSuchElementException("The tree is empty");
+        return min(root);
+    }
+
+    private int min(Node current) {
+        return (current.left == null) ? current.data : min(current.left);
+    }
+
+    @Override
+    public int max() {
+        Node current = root;
+        while (current.right != null) current = current.right;
+        return current.data;
+    }
+
+    @Override
+    public boolean contains(int key) {
+        return contains(key, root);
+    }
+
+    private boolean contains(int key, Node current) {
+        if (current == null) return false;
+        if (current.data == key) return true;
+        else if (current.data < key) return contains(key, current.right);
+        else return contains(key, current.left);
+    }
+
+    @Override
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node current) {
+        if (current == null) return -1;
+        return Integer.max(height(current.left), height(current.right)) + 1;
+    }
+
+    @Override
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    private void preOrder(Node current) {
+        if (current != null) {
+            System.out.print(current.data + " ");
+            preOrder(current.left);
+            preOrder(current.right);
+        }
+    }
+
+    @Override
+    public void inOrder() {
+        inOrder(root);
+    }
+
+    private void inOrder(Node current) {
+        if (current != null) {
+            inOrder(current.left);
+            System.out.print(current.data + " ");
+            inOrder(current.right);
+        }
+    }
+
+    @Override
+    public void postOrder() {
+        postOrder(root);
+    }
+
+    private void postOrder(Node current) {
+        if (current != null) {
+            postOrder(current.left);
+            postOrder(current.right);
+            System.out.print(current.data + " ");
+        }
+    }
+
+    @Override
+    public Node getRoot() {
+        return this.root;
+    }
+
+
+    @Override
+    public void delete(int key) {
+        throw new RuntimeException("We dont need to know how to remove from AVL");
+    }
+
+
+    @Override
+    public int size() {
+        return size(root);
+    }
+
+    private int size(Node current) {
+        return (current == null) ? 0 : size(current.left) + size(current.right) + 1;
+    }
+
+    @Override
+    public void add(int value) {
+        if (!contains(value)) {
+            root = add(value, root);
+        }
+    }
+
+    // ======================================================== For Balancing ===============================================================
+
+    private Node add(int value, Node current) {
+        if (current == null) return new Node(value);
+
+        if (value < current.data) current.left = add(value, current.left);
+        else current.right = add(value, current.right);
+
+        // New:
+        update(current); // update the balance factor of the tree
+        return balance(current); // return balance tree
+    }
+
+    @Override
+    public void update(Node node) {
+        int leftNodeHeight = height(node.left);
+        int rightNodeHeight = height(node.right);
+        node.bf = rightNodeHeight - leftNodeHeight;
+    }
+
+    @Override
+    public Node balance(Node node) {
+        if (node.bf == 2) { // R
+            if (node.right.bf <= 0) { // RL
+                return rightLeftCase(node);
+            } else // RR
+                return rightRightCase(node);
+        } else if (node.bf == -2) { // L
+            if (node.left.bf <= 0) { // LL
+                return leftLeftCase(node);
+            } else // LR
+                return leftRightCase(node);
+        } else return node;
+    }
+    private Node rightLeftCase(Node node) {
+        node.right = rightRotation(node.right);
+        return leftRotation(node);
+    }
+    private Node rightRightCase(Node node) {
+        return leftRotation(node);
+    }
+    private Node leftLeftCase(Node node) {
+        return rightRotation(node);
+    }
+    private Node leftRightCase(Node node) {
+        node.left = leftRotation(node.left);
+        return rightRotation(node);
+    }
+
+    private Node leftRotation(Node z) {
+        Node y = z.right;
+        z.right = y.left;
+        y.left = z;
+        update(z);
+        update(y);
+        return y;
+    }
+    private Node rightRotation(Node z) {
+        Node y = z.left;
+        z.left = y.right;
+        y.right = z;
+        update(z);
+        update(y);
+        return y;
+    }
+}
